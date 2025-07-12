@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>user creation</title>
+</head>
+<body>
+    <header>
+        <h2>Create account</h2>
+
+    </header>
+    <divclass="login-box">
+    <form action="create.php" method="post" onsubmit="return emailvalidation();">
+    Enter your username:
+    <input type="text" name="name" id="name">
+    <br><br>
+    Enter your admission number:
+    <input type="number" name="admission_no" id="admno">
+    <br><br>
+    Enter your email id:
+    <input type="email" name="email" id="email">
+    Enter your register number:
+    <input type="number" name="register_no" id="register_no">
+    <br><br>
+     Enter your DOB:
+    <input type="date" name="dob" id="dob">
+    <br><br>
+    enter your class:
+    <input type="text" name="class" id="class">
+    <br><br>
+    enter your course:
+    <input type="text" name="course" id="course">
+    <br><br>
+    Enter class code:
+    <input type="text" name="class_code" id="class_code">
+    <br><br>
+    Enter your password:
+    <input type="password" name="password" id="password">
+    <br><br>
+   
+    <input type="submit" name="submit" id="submit">
+    </form>
+    </div>
+    <link rel="stylesheet" href="create.css">
+    <script src="emailvalid.js"></script>
+</body>
+</html>
