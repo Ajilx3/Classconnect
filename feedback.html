@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+  <link rel="stylesheet" href="feedback.css">
+  <header class="navbar">
+    <div class="logo">
+      <h2>Classconnect</h2>
+    </div>
+  </header>
+  
+  <div class="main-content">
+    <form action="feedback.php" method="POST">
+  <label for="feedback_text">Your Feedback:</label><br>
+  <textarea name="feedback_text" id="feedback_text" required></textarea><br><br>
+
+  <label for="category">Category:</label><br>
+  <select name="category" id="category" required>
+    <option value="">--Select--</option>
+    <option value="general">General</option>
+    <option value="technical">Technical</option>
+    <option value="suggestion">Suggestion</option>
+  </select><br><br>
+
+  <label for="rating">Rate Us (1-5):</label><br>
+  <input type="number" name="rating" id="rating" min="1" max="5" required><br><br>
+
+  <label>
+    <input type="checkbox" name="anonymous" value="1"> Submit Anonymously
+  </label><br><br>
+
+  <button type="submit">Submit Feedback</button>
+</form>
+</div>
+
+</body>
+</html>
