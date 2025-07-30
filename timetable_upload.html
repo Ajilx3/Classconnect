@@ -1,41 +1,86 @@
-<?php
-session_start();
-include "config.php";
-if(isset($_POST['upload'])){
-  if(!isset($_SESSION['user_id'])){
-    echo "please login to upload file";
-    exit;
-
-  }
-  $uploaded_by=$_SESSION['user_id'];
-  $filename=$_POST['filename'];
-
-    if (isset($_FILES['file']) && $_FILES['file']['error'] === 0) {
-        $fileTmp = $_FILES['file']['tmp_name'];
-        $originalName = $_FILES['file']['name'];
-        $extension = pathinfo($originalName, PATHINFO_EXTENSION);
-        $uploadDir = "uploads/timetables/";
-        if (!is_dir($uploadDir)) {
-            mkdir($uploadDir, 0777, true); 
-        }
-        $newFileName = uniqid('tt_', true) . '.' . $extension;
-        $filePath = $uploadDir . $newFileName;
-        if (move_uploaded_file($fileTmp, $filePath)) {
-
-            $sql = "INSERT INTO timetable (filename, file_path, uploaded_by) VALUES ('$filename', '$filePath', '$uploaded_by')";
-            $result = mysqli_query($conn, $sql);
-
-            if ($result) {
-                alert("timetable uploded sucessfully");
-                header("location:timetable_uploaded.php");
-            } else {
-                echo " DB Error: " . mysqli_error($conn);
-            }
-        } else {
-            echo " File move failed.";
-        }
-    } else {
-        echo " No file uploaded or upload error.";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload Timetable</title>
+  <style>
+    * {
+      box-sizing: border-box;
     }
-}
-?>
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .upload-container {
+      background: #fff;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      width: 100%;
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 25px;
+    }
+
+    label {
+      font-weight: 500;
+      display: block;
+      margin-bottom: 6px;
+      color: #444;
+    }
+
+    input[type="text"],
+    input[type="file"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      background: #fafafa;
+    }
+
+    input[type="submit"] {
+      width: 100%;
+      padding: 12px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="upload-container">
+    <h2>📤 Upload a Timetable</h2>
+    <form action="timetable_upload.php" method="post" enctype="multipart/form-data">
+      <label for="filename">Enter Filename</label>
+      <input type="text" name="filename" id="filename" required>
+
+      <label for="file">Choose File (.pdf, .jpg, .jpeg, .png)</label>
+      <input type="file" name="file" id="file" accept=".pdf,.jpg,.jpeg,.png" required>
+
+      <input type="submit" name="upload" id="upload" value="Upload">
+    </form>
+  </div>
+</body>
+</html>
+
