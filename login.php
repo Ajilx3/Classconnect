@@ -19,7 +19,8 @@ if (isset($_POST['go'])) {
         // Password check (you can use password_verify if it's hashed)
         if ($password == $password) {
             $_SESSION['user_id'] = $row['id'];
-            $_SESSION['name'] = $row['name'];
+            $_SESSION['name'] = $row['first_name'];
+            $_SESSION['name'] = $row['last_name'];
             $_SESSION['role'] = $role;
 
             echo "Welcome buddy";
@@ -45,3 +46,5 @@ if (isset($_POST['go'])) {
     }
 }
 ?>
+
+
