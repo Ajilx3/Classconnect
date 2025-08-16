@@ -1,6 +1,7 @@
 <?php
 include "config.php";
 session_start();
+
 $sql = "SELECT * FROM users";
 $result = mysqli_query($conn, $sql);
 
@@ -27,9 +28,12 @@ if (!$result) {
 
     // Loop through all users
     while ($row = mysqli_fetch_assoc($result)) {
+        // Concatenate first and last name
+        $fullName = htmlspecialchars($row['first_name'] . " " . $row['last_name']);
+
         echo "<tr>
                 <td>" . $row['id'] . "</td>
-                <td>" . htmlspecialchars($row['name']) . "</td>
+                <td>" . $fullName . "</td>
                 <td>" . $row['admission_no'] . "</td>
                 <td>" . $row['email'] . "</td>
                 <td>" . $row['register_no'] . "</td>
@@ -46,4 +50,5 @@ if (!$result) {
     echo "</table>";
 }
 ?>
+
 
