@@ -3,55 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Signup page</title>
+    <title>Signup - Step 1</title>
+    <link rel="stylesheet" href="signup.css">
 </head>
 <body>
-    <link rel="stylesheet" href="signup.css">
-    <header><div class="navbar">
+<header>
+    <div class="navbar">
         <div class="logo"><h2>CLASSCONNECT</h2></div>
-         <p>Your all-in-one student dashboard</p>
+        <p>Your all-in-one student dashboard</p>
+    </div>
+</header>
+<main>
+    <div class="signup-box">
+        <h2>SIGNUP - Step 1</h2>
+        <form action="signup_step2.php" method="post" onsubmit="return validateForm();">
+            <input type="text" name="first_name" id="first_name" placeholder="Enter first name" required>
+            <br><br>
+            <input type="text" name="last_name" id="last_name" placeholder="Enter last name (optional)">
+            <br><br>
+            <input type="text" name="admission_no" id="admission_no" placeholder="Enter your admission number" required>
+            <br><br>
+            <input type="email" name="email" id="email" placeholder="Enter your email address" required>
+            <br><br>
+            <input type="number" name="register_no" id="register_no" placeholder="Enter your registration number" required>
+            <br><br>
+            <input type="date" name="dob" id="dob" placeholder="Enter your date of birth" required>
+            <br><br>
+            <input type="text" name="course" id="course" placeholder="Enter your stream" required>
+            <br><br>
+            <input type="text" name="college_id" id="college_id" placeholder="Enter college ID provided by admin" required>
+            <br><br>
+            <input type="submit" name="submit" value="Next Step">
+        </form>
+    </div>
+</main>
 
-    </div></header>
-    <main>
+<script>
+function validateForm() {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password")?.value; // password not in step 1
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-        <div class="signup-box">
-            <h2>SIGNUP</h2>
-           
-            <form action="signup.php" method="post" onsubmit="validatePassword();">
-                <input type="text" name="name" id="name" placeholder="enter your name">
-                <br><br>
-                <input type="number" name="admission_no" id="admission_no" placeholder="Enter your admission_no">
-                <br><br>
-                <input type="email" name="email" id="email" placeholder="Enter your emaili address">
-                <br><br>
-                <input type="number" name="register_no" id="register_no" placeholder="Enter your registration number">
-                <br><br>
-                <input type="date" name="dob" id="dob" placeholder="Enter your date of birth">
-                <br><br>
-                <input type="text" name="class" id="class" placeholder="Enter your class">
-                <br><br>
-                <input type="text" name="course" id="course" placeholder="Enter your course">
-                <br><br>
-                <input type="password" name="password" id="password" placeholder="Enter your password">
-
-                <br><br>
-                <input type="text" name="class_code" id="class_code" placeholder="Enter classcode">
-                <br><br>
-                <input type="submit" name="submit" title="here we go">
-            </form>
-        </div>
-    </main>
-    <script>
-        function validatePassword() {
-            const password = document.getElementById("password").value;
-            const pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
-            if (!pattern.test(password)) {
-                alert("Password must have at least 6 characters with 1 uppercase, 1 lowercase, and 1 number.");
-                return false; 
-            }
-            return true;
-        }
-
-    </script>
+    if (!emailPattern.test(email)) {
+        alert("Please enter a valid email address.");
+        return false;
+    }
+    return true;
+}
+</script>
 </body>
 </html>
