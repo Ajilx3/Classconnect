@@ -2,34 +2,38 @@
 session_start();
 include "config.php";
 
-if (isset($_POST['go'])) {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+if (isset($_POST['submit'])) {
+    $email = trim($_POST['email']);
+    $password = trim($_POST['password']);
 
-    $sql = "SELECT * FROM users WHERE email='$email'";
-    $result = mysqli_query($conn, $sql);
+    // Use prepared statement to prevent SQL injection
+    $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-    if (mysqli_num_rows($result) == 1) {
-        $row = mysqli_fetch_assoc($result);
-        
-        // Get values from row
-        $password = $row['password'];
-        $role = $row['role'];
+    if ($result->num_rows === 1) {
+        $row = $result->fetch_assoc();
 
-        // Password check (you can use password_verify if it's hashed)
-        if ($password == $password) {
+        // Verify password
+        if (password_verify($password, $row['password'])) {
+            // Set session variables
             $_SESSION['user_id'] = $row['id'];
-            $_SESSION['name'] = $row['name'];
-            $_SESSION['role'] = $role;
-
-            echo "Welcome buddy";
+            $_SESSION['first_name'] = $row['first_name'];
+            $_SESSION['last_name'] = $row['last_name'];
+            $_SESSION['role'] = $row['role'];
+            $_SESSION['college_id'] = $row['college_id']; // if you have it
+            $_SESSION['class_code'] = $row['class_code']; // if you have it
 
             // Redirect based on role
-            if ($role == 'admin') {
-                header("Location: admindash.html"); // teacher is admin
+            if ($row['role'] === 'admin') {
+                header("Location: admindash.php"); // admin dashboard
+                exit();
+            } elseif ($row['role'] === 'teacher') {
+                header("Location: teacherdash.php");
                 exit();
             } else {
-                header("Location: studentdash.html");
+                header("Location: studentdash.php");
                 exit();
             }
 
@@ -43,5 +47,8 @@ if (isset($_POST['go'])) {
         header("refresh:2; url=login.html");
         exit();
     }
+
+    $stmt->close();
 }
+$conn->close();
 ?>
